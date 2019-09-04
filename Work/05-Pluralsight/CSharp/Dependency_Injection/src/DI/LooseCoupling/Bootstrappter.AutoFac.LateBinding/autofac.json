@@ -1,0 +1,13 @@
+﻿{
+  "Components": [
+    {
+      "Type": "PersonRepository.CSV.CSVReader, PersonRepository.CSV",
+      "service": [
+        {
+          "Type": "PeopleViewer.Common.IPersonReader, PeopleViewer.Common"
+        }
+      ],
+      "injectionProperties": false
+    }
+  ]
+}

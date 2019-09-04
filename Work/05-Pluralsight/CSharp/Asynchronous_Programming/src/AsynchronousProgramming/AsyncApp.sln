@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-Bootstrappter", "01-Bootstrappter", "{53D301BB-3DF5-455B-9478-308E509593B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-Presentation", "03-Presentation", "{7E7C30BA-73AC-4B35-AAB9-1B1A000BF58E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04-Repositories", "04-Repositories", "{56A8F633-75F2-4B84-97C9-4A6CA9B0313A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{3A9A7A51-F919-493A-A7F2-6742BAFEFCE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleViewer.Presentation", "PeopleViewer.Presentation\PeopleViewer.Presentation.csproj", "{3CFEA4CA-4925-46F1-9789-CC4B459045D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonRepository.Service", "PersonRepository.Service\PersonRepository.Service.csproj", "{067E21F9-5F30-4AD7-BD4F-0FF0252292D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "People.Common", "People.Common\People.Common.csproj", "{19312B0D-C687-40AB-8A38-0B4C43C02E98}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-Viewer", "02-Viewer", "{0540FB12-7075-4144-A38B-C04DC9C115DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleViewer.Views", "PeopleViewer.Views\PeopleViewer.Views.csproj", "{156BCDB7-24E7-406F-97CF-E2A6BDCB794F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootstrappter", "Bootstrappter\Bootstrappter.csproj", "{802A0B7B-18A0-407F-A24C-B547681176EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3CFEA4CA-4925-46F1-9789-CC4B459045D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CFEA4CA-4925-46F1-9789-CC4B459045D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CFEA4CA-4925-46F1-9789-CC4B459045D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CFEA4CA-4925-46F1-9789-CC4B459045D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{067E21F9-5F30-4AD7-BD4F-0FF0252292D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{067E21F9-5F30-4AD7-BD4F-0FF0252292D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{067E21F9-5F30-4AD7-BD4F-0FF0252292D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{067E21F9-5F30-4AD7-BD4F-0FF0252292D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19312B0D-C687-40AB-8A38-0B4C43C02E98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19312B0D-C687-40AB-8A38-0B4C43C02E98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19312B0D-C687-40AB-8A38-0B4C43C02E98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19312B0D-C687-40AB-8A38-0B4C43C02E98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{156BCDB7-24E7-406F-97CF-E2A6BDCB794F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{156BCDB7-24E7-406F-97CF-E2A6BDCB794F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{156BCDB7-24E7-406F-97CF-E2A6BDCB794F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{156BCDB7-24E7-406F-97CF-E2A6BDCB794F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{802A0B7B-18A0-407F-A24C-B547681176EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{802A0B7B-18A0-407F-A24C-B547681176EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{802A0B7B-18A0-407F-A24C-B547681176EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{802A0B7B-18A0-407F-A24C-B547681176EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3CFEA4CA-4925-46F1-9789-CC4B459045D2} = {7E7C30BA-73AC-4B35-AAB9-1B1A000BF58E}
+		{067E21F9-5F30-4AD7-BD4F-0FF0252292D9} = {56A8F633-75F2-4B84-97C9-4A6CA9B0313A}
+		{19312B0D-C687-40AB-8A38-0B4C43C02E98} = {3A9A7A51-F919-493A-A7F2-6742BAFEFCE8}
+		{156BCDB7-24E7-406F-97CF-E2A6BDCB794F} = {0540FB12-7075-4144-A38B-C04DC9C115DC}
+		{802A0B7B-18A0-407F-A24C-B547681176EE} = {53D301BB-3DF5-455B-9478-308E509593B9}
+	EndGlobalSection
+EndGlobal
