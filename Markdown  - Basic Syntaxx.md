@@ -84,6 +84,18 @@ Alternatively, on the line below the text, add any number of `==` characters for
 
 ## Paragraphs
 
+---
+title: Paragraphs
+syntax-id: paragraphs
+description: "To create paragraphs, use a blank line to separate one or more lines of text. You should not indent paragraphs with spaces or tabs."
+examples:
+  - markdown: |
+      I really like using Markdown.
+
+      I think I'll use it to format all of my documents from now on.
+    html: "<p>I really like using Markdown.</p><p>I think I'll use it to format all of my documents from now on.</p>"
+---
+
 To create paragraphs, use a blank line to separate one or more lines of text. You should not indent paragraphs with spaces or tabs.
 
 <table class="table table-bordered">
@@ -116,6 +128,7 @@ To create paragraphs, use a blank line to separate one or more lines of text. Yo
     </tr>
   </tbody>
 </table>
+
 
 ## Line Breaks
 
@@ -407,7 +420,7 @@ The rendered output looks like this:
 1.  Open the file containing the Linux mascot.
 2.  Marvel at its beauty.
 
-    ![Tux, the Linux mascot](/assets/images/tux.png)
+    ![Tux, the Linux mascot](Work/04-Knowledge/11-Markdown/assets/images/tux.png)
 
 3.  Close the file.
 ```
@@ -417,7 +430,7 @@ The rendered output looks like this:
 1.  Open the file containing the Linux mascot.
 2.  Marvel at its beauty.
 
-    ![Tux, the Linux mascot](/assets/images/tux.png)
+    ![Tux, the Linux mascot](Work/04-Knowledge/11-Markdown/assets/images/tux.png)
 
 3.  Close the file.
 
