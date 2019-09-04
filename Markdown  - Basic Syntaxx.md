@@ -140,7 +140,6 @@ To create a line break (`<br>`), end a line with two or more spaces, and then ty
       </td>
       <td>
         <code class="highlighter-rouge">&lt;p&gt;This is the first line.&lt;br&gt;<br />
-
         And this is the second line.&lt;/p&gt;</code>
       </td>
       <td>
