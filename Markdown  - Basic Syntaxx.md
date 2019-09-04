@@ -1,39 +1,8 @@
----
-layout: default
-title: Basic Syntax
-description: The Markdown elements outlined in John Gruber's design document.
-last_modified_at: 2018-08-01
----
+# Basic Syntax
 
-{% include syntax.html type="basic" syntax-id="overview" %}
+The Markdown elements outlined in John Gruber's design document.
 
-{% include syntax.html type="basic" syntax-id="headings" %}
-
-{% include syntax.html type="basic" syntax-id="paragraphs" %}
-
-{% include syntax.html type="basic" syntax-id="line-breaks" %}
-
-{% include syntax.html type="basic" syntax-id="emphasis" %}
-
-{% include syntax.html type="basic" syntax-id="blockquotes" %}
-
-{% include syntax.html type="basic" syntax-id="lists" %}
-
-{% include syntax.html type="basic" syntax-id="code" %}
-
-{% include syntax.html type="basic" syntax-id="horizontal-rules" %}
-
-{% include syntax.html type="basic" syntax-id="links" %}
-
-{% include syntax.html type="basic" syntax-id="images" %}
-
-{% include syntax.html type="basic" syntax-id="escaping-characters" %}
-
----
-title: Overview
-syntax-id: overview
-api: "no"
----
+## Overview
 
 Nearly all Markdown applications support the basic syntax outlined in John Gruber's original design document. There are minor variations and discrepancies between Markdown processors — those are noted inline wherever possible.
 
@@ -41,41 +10,7 @@ Nearly all Markdown applications support the basic syntax outlined in John Grube
   <i class="fas fa-info-circle"></i> <strong>Note:</strong> Using Markdown doesn't mean that you can't also use HTML. You can add HTML tags to any Markdown file. This is helpful if you prefer certain HTML tags to Markdown syntax. For example, some people find that it's easier to use HTML tags for images.
 </div>
 
----
-title: Headings
-syntax-id: headings
-syntax-summary: |
-  # H1
-  ## H2
-  ### H3
-description: "To create a heading, add number signs (`#`) in front of a word or phrase. The number of number signs you use should correspond to the heading level. For example, to create a heading level three (`<h3>`), use three number signs (e.g., `### My Header`)."
-examples:
-  - markdown: "# Heading level 1"
-    html: "<h1>Heading level 1</h1>"
-  - markdown: "## Heading level 2"
-    html: "<h2>Heading level 2</h2>"
-  - markdown: "### Heading level 3"
-    html: "<h3>Heading level 3</h3>"
-  - markdown: "#### Heading level 4"
-    html: "<h4>Heading level 4</h4>"
-  - markdown: "##### Heading level 5"
-    html: "<h5>Heading level 5</h5>"
-  - markdown: "###### Heading level 6"
-    html: "<h6>Heading level 6</h6>"
-additional-examples:
-  - name: "Alternative H1 Syntax"
-    description: "Alternatively, on the line below the text, add any number of == characters for heading level 1."
-    markdown: |
-      Heading level 1
-      ===============
-    html: "<h1>Heading level 1</h1>"
-  - name: "Alternative H2 Syntax"
-    description: "Alternatively, on the line below the text, add any number of -- characters for heading level 2."
-    markdown: |
-      Heading level 2
-      ---------------
-    html: "<h2>Heading level 2</h2>"
----
+## Headings
 
 To create a heading, add number signs (`#`) in front of a word or phrase. The number of number signs you use should correspond to the heading level. For example, to create a heading level three (`<h3>`), use three number signs (e.g., `### My Header`).
 
