@@ -29,16 +29,12 @@ The OPC group object maintains information about itself and provides the mechani
 
 Some of the information listed in this Chapter was taken from the publications and technical specifications of the __OPC Foundation__. Current information about the OPC Foundation can be found on the website <http://www.opcfoundation.org>
 
-The OPC specification is for the following type of data:
- Online Data Access, i.e., the efficient reading and writing of data between an application and a process
+The OPC specification is for the following type of data:  
+- __Online Data Access__, i.e., the efficient __reading and writing of data__ between an application and a process
 control device flexibly and efficiently.
- Alarm and Event Handling, i.e., the mechanisms for OPC Clients to be notified of the occurrence of
-specified events and alarm conditions.
-Although OPC is primarily designed for accessing data from a networked server, OPC interfaces can be used in
-many places within an application. At the lowest level they can get raw data from the physical devices into a
-SCADA or DCS or from the SCADA or DCS system into the application. The architecture and design makes it
-possible to construct an OPC Server which allows a client application to access data from many OPC Servers
-provided by many different OPC vendors running on different nodes via a single object.
+- __Alarm and Event Handling__, i.e., the mechanisms for OPC Clients to be __notified__ of the occurrence of specified events and alarm conditions.
+
+Although OPC is primarily designed for accessing data from a networked server, OPC interfaces can be used in many places within an application. At the lowest level they can get raw data from the physical devices into a SCADA or DCS or from the SCADA or DCS system into the application. The architecture and design makes it possible to construct an OPC Server which allows a client application to access data from many OPC Servers provided by many different OPC vendors running on different nodes via __a single object__(***what does objects here means?***).
 
 
 
