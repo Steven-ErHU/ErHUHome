@@ -1,3 +1,3 @@
-# StevenHUHome
+# ErHuHome
 
-This is the home page for Steven-HuFeixia.
+This is the home page for ErHu.
