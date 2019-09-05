@@ -1,3 +1,3 @@
-# ErHuHome
+# ErHUHome
 
-This is the home page for ErHu.
+This is the home page for ErHU.
