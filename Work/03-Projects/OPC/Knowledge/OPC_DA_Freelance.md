@@ -171,11 +171,11 @@ Information about the OPC server state:
 This interface must be provided, and all functions implemented as specified. _COPCServerCust_ class implements this interface.
 
 > HRESULT	AddGroup(szName, bActive, dwRequestedUpdateRate, hClientGroup, pTimeBias, pPercentDeadband, dwLCID, phServerGroup,  pRevisedUpdateRate, riid, ppUnk)
-> HRESULT	GetErrorString(dwError, dwLocale, ppString) 
-> HRESULT	GetGroupByName(szName, riid, ppUnk)
-> HRESULT	GetStatus(ppServerStatus)
-> HRESULT	RemoveGroup(hServerGroup, bForce)
-> HRESULT	CreateGroupEnumerator(dwScope, riid, ppUnk)
+> HRESULT	GetErrorString(dwError, dwLocale, ppString)  
+> HRESULT	GetGroupByName(szName, riid, ppUnk)  
+> HRESULT	GetStatus(ppServerStatus)  
+> HRESULT	RemoveGroup(hServerGroup, bForce)  
+> HRESULT	CreateGroupEnumerator(dwScope, riid, ppUnk)  
 
 __IOPCCommon:__
 
@@ -183,11 +183,11 @@ It provides the ability to set and query a _LocaleID_ which would be in effect f
 
 This interface must be provided, and all functions implemented as specified. _COPCServerCust_ class implements this interface.
 
-> HRESULT SetLocaleID ([in] LCID dwLcid);
-> HRESULT GetLocaleID ([out] LCID *pdwLcid);
-> HRESULT QueryAvailableLocaleIDs ([out] DWORD *pdwCount,[out, sizeis(dwCount)] LCID **pdwLcid);
-> HRESULT GetErrorString([in] HRESULT dwError,[out, string] LPWSTR *ppString);
-> HRESULT SetClientName ([in, string] LPCWSTR szName );
+> HRESULT SetLocaleID ([in] LCID dwLcid);  
+> HRESULT GetLocaleID ([out] LCID *pdwLcid);  
+> HRESULT QueryAvailableLocaleIDs ([out] DWORD *pdwCount,[out, sizeis(dwCount)] LCID **pdwLcid);  
+> HRESULT GetErrorString([in] HRESULT dwError,[out, string] LPWSTR *ppString);  
+> HRESULT SetClientName ([in, string] LPCWSTR szName );  
 
 __IOPCItemProperties:__
 
@@ -200,9 +200,9 @@ So, the general intent of this interface is to provide a way, given an _ITEMID_ 
 
 This interface is implemented by the class _COPCServerCust_.
 
-> HRESULT QueryAvailableProperties(szItemID, pdwCount, ppPropertyIDs, ppDescriptions, ppvtDataTypes);
-> HRESULT GetItemProperties (szItemID, dwCount, pdwPropertyIDs, ppvData, ppErrors );
-> HRESULT LookupItemIDs( szItemID, dwCount, pdwPropertyIDs, ppszNewItemIDs, ppErrors );
+> HRESULT QueryAvailableProperties(szItemID, pdwCount, ppPropertyIDs, ppDescriptions, ppvtDataTypes);  
+> HRESULT GetItemProperties (szItemID, dwCount, pdwPropertyIDs, ppvData, ppErrors );  
+> HRESULT LookupItemIDs( szItemID, dwCount, pdwPropertyIDs, ppszNewItemIDs, ppErrors );  
 
 __IConnectionPointContainer:__
 
@@ -215,32 +215,32 @@ __IOPCBrowseServerAddressSpace:__
 
 This interface provides a way for clients to browse the available data items in the server, giving the user a list of the valid definitions for an _ITEM ID_. This interface is implemented by the class _COPCServerCust_. The list of methods of this interface is as follows:
 
-> HRESULT QueryOrganization(pNameSpaceType);
-> HRESULT ChangeBrowsePosition(dwBrowseDirection, szString);
-> HRESULT BrowseOPCItemIDs(dwBrowseFilterType, szFilterCriteria, vtDataTypeFilter, dwAccessRightsFilter, ppIEnumString);
-> HRESULT GetItemID(szItemDataID, szItemID);
-> HRESULT BrowseAccessPaths(szItemID, ppIEnumString);
+> HRESULT QueryOrganization(pNameSpaceType);  
+> HRESULT ChangeBrowsePosition(dwBrowseDirection, szString);  
+> HRESULT BrowseOPCItemIDs(dwBrowseFilterType, szFilterCriteria, vtDataTypeFilter, dwAccessRightsFilter, ppIEnumString);  
+> HRESULT GetItemID(szItemDataID, szItemID);  
+> HRESULT BrowseAccessPaths(szItemID, ppIEnumString);  
 
 __IOPCGroupStateMgt:__
 
 IOPCGroupStateMgt allows the client to manage the overall state of the group. Primarily this allows changes to the update rate and active state of the group. This interface is implemented by the class _COPCGroupCust_. Following are the methods of this interface:
 
-> HRESULT GetState(pUpdateRate, pActive, ppName, pTimeBias, pPercentDeadband, pLCID, phClientGroup, phServerGroup)
-> HRESULT SetState(pRequestedUpdateRate, pRevisedUpdateRate, pActive, pTimeBias, pPercentDeadband, pLCID, hClientGroup)
-> HRESULT SetName(szName);
-> HRESULT CloneGroup(szName, riid, ppUnk);
+> HRESULT GetState(pUpdateRate, pActive, ppName, pTimeBias, pPercentDeadband, pLCID, phClientGroup, phServerGroup)  
+> HRESULT SetState(pRequestedUpdateRate, pRevisedUpdateRate, pActive, pTimeBias, pPercentDeadband, pLCID, hClientGroup)  
+> HRESULT SetName(szName);  
+> HRESULT CloneGroup(szName, riid, ppUnk);  
 
 __IOPCItemMgt:__
 
 IOPCItemMgt allows a client to add, remove and control the behavior of the items in a group. This interface is implemented by the class _COPCGroupCust_. Methods of this interface are as follows:
 
-> HRESULT AddItems(dwCount, pItemArray, ppAddResults, ppErrors)
-> HRESULT ValidateItems(dwCount, pItemArray, bBlobUpdate, ppValidationResults, ppErrors)
-> HRESULT RemoveItems(dwCount, phServer, ppErrors)
-> HRESULT SetActiveState(dwCount, phServer, bActive, ppErrors)
-> HRESULT SetClientHandles(dwCount, phServer, phClient, ppErrors)
-> HRESULT SetDatatypes(dwCount, phServer, pRequestedDatatypes, ppErrors)
-> HRESULT CreateEnumerator(riid, ppUnk)
+> HRESULT AddItems(dwCount, pItemArray, ppAddResults, ppErrors)  
+> HRESULT ValidateItems(dwCount, pItemArray, bBlobUpdate, ppValidationResults, ppErrors)  
+> HRESULT RemoveItems(dwCount, phServer, ppErrors)  
+> HRESULT SetActiveState(dwCount, phServer, bActive, ppErrors)  
+> HRESULT SetClientHandles(dwCount, phServer, phClient, ppErrors)  
+> HRESULT SetDatatypes(dwCount, phServer, pRequestedDatatypes, ppErrors)  
+> HRESULT CreateEnumerator(riid, ppUnk)  
 
 __IDataObject:__
 
@@ -250,15 +250,15 @@ __IDataObject:__
 
 _IDataObject_ is implemented on the OPC Group rather than on the individual items. This allows the creation of an Advise connection between the client and the group using the OPC Data Stream Formats for the efficient data transfer. This interface is implemented by the class _COPCGroupCust_. This interface has the following 2 methods:
 
-> HRESULT Dadvise(pFmt, adv, pSnk, pConnection);
-> HRESULT Dunadvise(Connection);
+> HRESULT Dadvise(pFmt, adv, pSnk, pConnection);  
+> HRESULT Dunadvise(Connection);  
 
 __IOPCSyncIO:__
 
 IOPCSyncIO allows a client to perform synchronous read and write operations to a server. These operations will run to completions. This interface is implemented by the class _COPCGroupCust_. The 2 methods of this interface are as follows:
 
-> HRESULT Read(dwSource, dwCount, phServer, ppItemValues, ppErrors)
-> HRESULT Write(dwCount, phServer, pItemValues, ppErrors)
+> HRESULT Read(dwSource, dwCount, phServer, ppItemValues, ppErrors)  
+> HRESULT Write(dwCount, phServer, pItemValues, ppErrors)  
 
 __IOPCASyncIO:__
 
@@ -268,10 +268,10 @@ __IOPCASyncIO:__
 
 IOPCASyncIO allows a client to perform asynchronous read and write operations to a server. This interface is implemented by the class _COPCGroupCust_. Methods of this interface are as follows:
 
-> HRESULT Read(dwConnection, dwSource, dwCount, phServer, pTransactionID, ppErrors)
-> HRESULT Write(dwConnection, dwCount, phServer, pItemValues, pTransactionID, ppErrors);
-> HRESULT Cancel (dwTransactionID);
-> HRESULT Refresh(dwConnection, dwSource, pTransactionID);
+> HRESULT Read(dwConnection, dwSource, dwCount, phServer, pTransactionID, ppErrors);  
+> HRESULT Write(dwConnection, dwCount, phServer, pItemValues, pTransactionID, ppErrors);  
+> HRESULT Cancel (dwTransactionID);  
+> HRESULT Refresh(dwConnection, dwSource, pTransactionID);  
 
 __IOPCASyncIO2:__
 
@@ -283,12 +283,12 @@ This interface is similar to IOPCASyncIO. This interface is intended to replace 
 
 Supported methods of this interface are as follows:
 
-> HRESULT Read(dwCount, phServer, dwTransactionID, pdwCancelID, ppErrors)
-> HRESULT Write(dwCount, phServer, pItemValues, dwTransactionID, pdwCancelID, ppErrors);
-> HRESULT Cancel2 (dwCancelID);
-> HRESULT Refresh2(dwSource, dwTransactionID, pdwCancelID);
-> HRESULT SetEnable(bEnable);
-> HRESULT GetEnable(pbEnable);
+> HRESULT Read(dwCount, phServer, dwTransactionID, pdwCancelID, ppErrors);  
+> HRESULT Write(dwCount, phServer, pItemValues, dwTransactionID, pdwCancelID, ppErrors);  
+> HRESULT Cancel2 (dwCancelID);  
+> HRESULT Refresh2(dwSource, dwTransactionID, pdwCancelID);  
+> HRESULT SetEnable(bEnable);  
+> HRESULT GetEnable(pbEnable);  
 
 __Read Method:__ The Values and Quality for the requested items are sent to the client through the _IOPCDataCallback::OnReadComplete_ method. The Value and Quality are the values that the server obtains from the DEVICE when this method is called. The CACHE of the server should be updated with the acquired value and quality.
 
@@ -296,10 +296,10 @@ __IEnumOPCItemAttributes:__
 
 IEnumOPCItemAttributes allows a client to find out the contents (items) of a Group and the attributes of those items. Most of the returned information was either supplied by or returned to the client at the time it called AddItem.  
 Methods of this interface are:
-> HRESULT Next();
-> HRESULT Skip();
-> HRESULT Reset(void);
-> HRESULT Clone(ppEnumItemAttributes);
+> HRESULT Next();  
+> HRESULT Skip();  
+> HRESULT Reset(void);  
+> HRESULT Clone(ppEnumItemAttributes);  
 
 <div class="alert alert-info">
   <i class="fas fa-info-circle"></i> <strong>Note:</strong> Interfaces required to be implemented by OPC Clients are not discussed here as it is out of scope of this design document.
