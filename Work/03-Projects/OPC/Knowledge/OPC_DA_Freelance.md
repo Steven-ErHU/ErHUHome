@@ -453,7 +453,7 @@ __OPC Group Object:__
 - Items that are added to different groups with different update rates will be read once, but with the smallest update rate
 - Items and groups will be updated with live data when the Group/Item is advised.
 - Advising a group with items or only a single item will mean that the OPC Items are moved to the OPC Shelf
-- All items in the OPC Shelf will be read cyclically.
+- All items in the OPC Shelf will be read cyclically(周期地).
 - If an item is already in the OPC Shelf the ref count of the item is increased and the update rate is adjusted if needed.
 - Reading the items is based on the protocol information
 - Controller items are added to the controller variable list and read cyclically. The OPC quality of the items is set here as well.
@@ -465,4 +465,247 @@ __OPC Group Object:__
 
 The OPCGroup object is the primary object that an OPC server exposes. The interfaces that this object provides are shown in the following interface diagram:
 
+![OPCGroup object's interface diagram](/assets/images/freelance_opc_da_server/opcgroup_object_interface_diagram.png "OPCGroup object's interface diagram")
 
+__OPC Item Object:__
+
+The OPCItem object is the primary object that an OPC server exposes. It is derived from _COPCItemDisp_ which in turn is derived from _COPCItemRoot_. Refer to the class diagram in section __Class Diagram for Item Object__ for the class hierarchy and the methods.  
+The OPCItem Object is responsible to hold the following data to access the item's data through DMS:
+
+- Name of the Item.
+- Active state (Enable/Disable)
+- OPCHANDLEs of the Client, Server, and Group
+- Advice state (Advised/Unadvised)
+- Access Rights(READ/WRITE/READWRITE/NOACCESS)
+- Quality (Good/Bad)
+- Timestamp
+- Group (To which Item is associated)
+- Protocol (To which Item is associated)
+- Update rate (By which Item will be updated)
+- Data Type of the Item
+
+This object will be used for 2 different operations:
+
+1. __Cyclic Operations:__ Cyclic read operations performs by advising a group with item(s) by moving into object of _COPCItemShelf_ which has been created as global object.
+2. __Acyclic Operations:__ Acyclic operations (Sync/Async Reading/Writing) performs by issuing a new job to the internal Job list for group(s) or items(s).
+
+
+##### Data Acquisition Layer (DAL)
+
+The __Data Acquisition Layer (DAL)__ is the protocol layer within the OPC server which is positioned above the Field Bus protocols and the controller protocol (DMSOnl).  
+The main functionalities of DAL are:
+
+- Initialization of Protocols (It creates the one DMSONL protocol and one FB protocol and add them into protocol list)
+- Configuration of Protocols (Explained in section __5.1.1.1	OPC Configuration__)
+- Asynchronous operations (Async Read/Write)
+- Synchronous operations (Sync Read/Write)
+- Cyclic read operations (Advise/Unadvise)
+
+Classes used for performing Read/Write operation are:
+
+- DALReadJob (Sync/Async Read)
+- DALWriteJob (Sync/Async Write)
+- CDALProtocol_DMSONL/CFBProtocol (Cyclic Read)
+
+The DAL object has following callback functions used by Async read/write jobs:
+
+- Response(vector < READ_DATA* >): Which calls _ASyncReadResultsCB_ global for async read operations
+- Response(vector < WRITE_DATA* >): Which calls _ASyncWriteResultsCB_ global for async write operations
+
+Synchronous jobs do not call Response but fires an event as the application waits (40 sec) while reading through DMS.
+
+The DAL has another callback function mentioned below for cyclic read operation, which is registered with both the protocols.
+
+- CyclicCallback: Which calls ValueChangedCB global function for cyclic read operations
+
+__Data Access Layer Protocol:__
+
+The class _CDALProtocol_ declared the interfaces to implement the protocols. This class is an abstract class. This is the base class for __DMSONL__ (CDALProtocol_DMSONL) and __FB__ (CFBProtocol) protocols classes.
+
+__DMS Protocol:__
+
+The DMS protocol is used for communication from OPC server to the process stations. This protocol is implemented in *DALProtocol_DMSONL* class. At the time of creating this object it registers two callback functions with DMS. One is _DMSCallback_ for cyclic operations and the second one is _DMSACycleCb_ for acyclic operations.  
+Both the functions belong to this object. This class contains the following data to access the data from DMS:
+
+- Container class object for _CController_ (vector)
+- Container class object for _CDMSJob_ and _Transaction ID_(map)
+- Container class object for _DMS_CONN_HANDLE_ and _CController_(map)
+- Container class object for _CCyclicItem_ and _CString(map)_ for cyclic items
+- Object of internal class _CallbackHandler_
+
+__CallbackHandler__: This internal class has one thread called CallbackThread which will be started at the time of instantiating the object. This thread is responsible for handling of callback functions.
+
+
+Following are the functionalities of this protocol:
+
+- Reading configuration of the CBF project( Explained in section 5.1.1.1)
+- Adding controller information into CController* container object
+- Read and Write operations.
+- Information about the state of the process stations.
+- Cyclic read actions, and connecting and de-connecting of process stations and variables.
+- Cyclic information to value changes (Value Changed Callback).
+- Log of asynchronous Read and Write Callbacks
+- Adding and removing of OPC items.
+
+__Cyclic Read Operation:__
+
+Cyclic read operations are performed by advising a group with item(s) by moving into COPCItemShelf object. If an item is already in the OPC Shelf the reference count of the item is increased and the update rate is adjusted if needed. Reading an item is based on the protocol information.
+
+It performs cyclic reading with CNamedItem container (map) object m_AdvisedItems by advising items. This object keeps track of all items advised for cyclic reading. While advising an Item( variable) it looks into the Configuration object and gets respective CDMSLeafVisitor object which contains Items’s resource number and object path by which it create one CNamedItem object, this will be added to the CController object with AddVariable method. This method adds this variable (Item) into CCyclicVariableList object which adds variable with DMS with DMSAPI_VLAddReadVarByAddr method.
+
+__Acyclic Read/Write:__ 
+
+It performs acyclic reading/writing with CDMSJob container (map) object m_RunningJobs. The CDMSJob object contains CACyclicVariableList* container object (vector) which looks into the Configuration object’s data for a respective Item and gets CDMSLeafVisitor object which contains the Items’s resource number, object path and DMS data type. With this data CDMSJob object creates a CWriteItem/CReadItem object and adds them into CACyclicVariableList object with AddVariable method. The CACyclicVariableList object class calls AddWriteVariable/ AddReadVariable method of CVariableList class that registers the item with DMS with DMSAPI_VLAddWriteVarByAddr /DMSAPI_VLAddReadVarByAddr methods.
+
+<div class="alert alert-info">
+  <i class="fas fa-info-circle"></i> <strong>Note:</strong> The mechanism for sync and Async operations are performed the same way but only difference is for sync Read/Write, the caller functions waits for a response. Sync/Async read/write is explained in detailed in
+section Acyclic Access
+</div>
+
+Some of the main DMS API functions used in the Freelance OPC Server are as follows:
+
+| Functions                            |     Descriptions                                                                                                                                                                                                  |
+|:-------------------------------------|:----------------------------------------------------------------------     |
+| DMSAPI_RegisterCltCB                 |     Registers a callback function with a specific CallbackId. <br>The registered Callback function is called when data are received. <br>On connecting and disconnecting all registered Callback functions are called     |
+| DMSAPI_GetProjectInfo                |     Get current project version                                                                                                                                                                                   |
+| DMSAPI_GetFirstUniResourceInfo       |     This procedure returns the details of the first resource <br>in the resource domain.                                                                                                                              |
+| DMSAPI_GetNextUniResourceInfo        |     This procedure returns the details of the other resources <br>in the resource domain.                                                                                                                             |
+| DMSAPI_GetFirstUniVarInfo            |     This procedure returns the details of the first variable <br>in the variable domain.                                                                                                                              |
+| DMSAPI_GetFirstUniTagInfo            |     This procedure returns the details of the first tag <br>in the tag domain.                                                                                                                                        |
+| DMSAPI_GetVarInfoByUniName           |     Converts a Freelance 800F address data item to <br>a variable name Transform Freelance address information into variable name                                                                                     |
+| DMSAPI_GetFirstUniBasicCmpOfObjClass |     Requests the configuration information <br>for the first component of an object class. <br>Get configuration information for the first component of an object class                                                   |
+| DMSAPI_GetNextUniBasicCmpOfObjClass  |     Requests the configuration information <br>for all other components of an object class.<br> Get configuration information for all remaining components of an object class                                             |
+| DMSAPI_GetNextUniTagInfo             |     This procedure returns the details of all other tags in the tag domain.                                                                                                                                       |
+| DMSAPI_ConnectByNo                   |     Establish connection to a DMS server                                                                                                                                                                          |
+| DMSAPI_VLCreate                      |     Create variable list                                                                                                                                                                                          |
+| DMSAPI_VLDelete                      |     Delete variable list                                                                                                                                                                                          |
+| DMSAPI_VLAddReadVarByAddr            |     Add read variable                                                                                                                                                                                             |
+| DMSAPI_VLAddWriteVarByAddr           |     Add write variable                                                                                                                                                                                            |
+| DMSAPI_VLDelVar                      |     Delete variable from variable list                                                                                                                                                                            |
+| DMSAPI_VLReadCycle                   |     Cyclical read of variable list                                                                                                                                                                                |
+| DMSAPI_VLStopCycle                   |     Stop cyclical variable list                                                                                                                                                                                   |
+| DMSAPI_VLRead                        |     One-time read of variable list                                                                                                                                                                                |
+| DMSAPI_VLWrite                       |     One-time write to a variable list                                                                                                                                                                             |
+| DMSAPI_GetVarLen                     |     Length required by a variable within a variable list                                                                                                                                                          |
+
+__FB Protocol:__
+
+Fieldbus protocols (Profibus, HART, and FF) are used for communication from OPC server to the field devices. At the time of creating this object it registers two callback functions with DMS. One is CyclicCallback for cyclic operations and the second one is ACyclicCallback for acyclic operations. Both the functions belong to this object.
+
+Following are the tasks performed by this component:
+
+- Reading configuration of the CBF project( Explained in section 5.1.1.1)
+- Read and Write at the field bus.
+- Cyclic operations ( Advise/Unadvise)
+- Mapping of error numbers from Profibus or HART communication into OPC error numbers.
+- Connecting and de-connecting of cyclic field bus variables.
+
+__Read/Write OPC Items:__
+
+Accessing OPC data are categorized two ways:
+- Cyclic (Reads items cyclically)
+- Acyclic (Reads/writes items non-cyclically)
+
+__Cyclic Access:__
+
+Cyclic read operations are performed by advising a group with item(s) by moving into COPCItemShelf object. If an item is already in the OPC Shelf the reference count of the item is increased and the update rate is adjusted if needed. Reading an item is based on the protocol information. Controller items are added to the controller’s variable list and reads cyclically. Fieldbus items are read directly via the DMS layer. The COPCItemShelf class has one container (CArray) object of COPCShelfEntry which handles the following data:
+
+- Name of the Item.
+- COPCValue object
+- Advice state (Advised/Unadvised)
+- Timestamp
+- Protocol (To which Item is associated)
+- Update rate (By which item will be updated)
+
+__Acyclic Access__
+
+The Acyclic read/write operation of OPC Items happens in two ways:
+
+1. __Synchronous__: These operations are performed by starting a new thread and the main thread waits until it returns. The timeout is configured for 40 sec. Reading and Writing group(s) or item(s) will issue a new job to the internal Job List. If several items are there to read/write all related variable lists are started for reading/writing. Read/Write synchronously will be done asynchronously while the caller thread waits for a response.
+
+2. __Asynchronous__: These operations are performed by starting a new thread but the client will not wait for the answer. It will be notified when the read/write is complete. Async Reading and Writing groups or items will issue a new Job to the internal Job List. . If several items are there to read/write all related variable lists are started for reading/writing. For every item, status is saved whether the read/write succeeded or not, this status is send to the client as well.
+
+
+The reading/writing operations are implemented in the class CDALJob. It has two methods ExecuteSync and ExecuteASync which performs Sync and ASync read/write operations respectively. CDALJob class has one vector object for CDALProtocolBaseJob* which contains the protocol information for respective item. The CDALProtocolBaseJob object registers the read/write job with global object of CJobList with RegisterJob method, this method creates one CJobEntry object for each read/write job. The CJobList class contains one CJobEntry map object and one thread NotifyThread .This thread waits for the jab to be finished and process the results by calling JobFinished methos.The sequence of operations for reading/writing OPC Items are shown in sequence diagram section.
+
+The classes involved in reading/writing OPC Items are as follows:
+
+| Class Name	             | Description                                                                                              |
+|:------------------------ | :------------------------------------------------------------------------------------------------------- |
+| CDALBaseJob	             | Base class for CDALJob and CDALProtocolBaseJob|
+| CDALJob	                 | It is a template class defined as template <class Req_T, class ProtJob_T> class CDALJob : public CDALBaseJob<br><br> this job represents a single OPC transaction (read, write and refresh(same as read))|
+| CDALProtocolBaseJob	     | This object represents the part of a job/transaction for a specific protocol|
+| CDALProtocolReadJob      | This class is derived from CDALProtocolBaseJob.|
+| CDALProtocolWriteJob	   | This class is derived from CDALProtocolBaseJob.|
+| DALWriteJob	             | typedef of CDALJob<WRITE_DATA, CDALProtocolWriteJob>|
+| DALReadJob	             | typedef of CDALJob<READ _DATA, CDALProtocolReadJob>|
+| COPCValue	               | Data Type for an OPC Item to support Interoperability|
+| CDALProtocol_DMSONL      | The DMS protocol is used for communication from OPC server to the process stations.|
+| CFBProtocol		           | Fieldbus protocols (Profibus, HART, and FF) are used for communication from OPC server to the field devices.|
+| CJobList		             | Class to maintain list of jobs (reading/writing jobs)|
+| CJobEntry		             | Maintains information about type of job (read/write) and protocol.|
+| CDMSJob		               | Maintains the list of jobs (read/write) and is responsible for Starting the job.|
+| CDMSItem		             | Maintains OPC Item Address (DMS_VAR_TYPE, DMS_OBJ_PATH, DMS_RES_NO)|
+| COPCValueDMS		         | Data Type for an OPC Item to support Interoperability|
+| CReadItem		             | acyclic ReadItem|
+| CWriteItem		           | acyclic WriteItem|
+| CVariableList		         | Base class for a variable list|
+| CACyclicVariableList		 | Base class for acyclic variable list|
+| CReadVariableList		     | a variable list for an acyclic read service|
+| CWriteVariableList		   | a variable list for an acyclic write service|
+| CController		           | Class representing a controller|
+| READ_DATA		             | Maintains information about read item, e.g. Protocol, ItemID, access rights, value, timestamp etc etc.|
+| WRITE_DATA		           | Maintains information about write item, e.g. Protocol, ItemID, access rights, value, timestamp etc etc.|
+| NOTIFY_DATA		           | Used for Callback Notification.|
+
+__Cyclic Read:__
+
+Classes mentioned above are only for acyclic read and write operations. Cyclic Read will be performed by Advising items.
+
+#### Classes/Structures
+
+##### Class Diagram for OPC Server Object
+
+![Class Diagram for OPC Server Object](/assets/images/freelance_opc_da_server/class_diaram_opc_server_object.png "Class Diagram for OPC Server Object")
+
+##### Class Diagram for OPC Group Object
+
+![Class Diagram for OPC Group Object](/assets/images/freelance_opc_da_server/class_diaram_opc_group_object.png "Class Diagram for OPC Group Object")
+
+##### Class Diagram for Item Object
+
+![Class Diagram for OPC Item Object](/assets/images/freelance_opc_da_server/class_diaram_opc_item_object-01.png "Class Diagram for OPC Item Object")
+
+![Class Diagram for OPC Item Object](/assets/images/freelance_opc_da_server/class_diaram_opc_item_object-02.png "Class Diagram for OPC Item Object")
+
+![Class Diagram for OPC Item Object](/assets/images/freelance_opc_da_server/class_diaram_opc_item_object-03.png "Class Diagram for OPC Item Object")
+
+<div class="alert alert-info">
+  <i class="fas fa-info-circle"></i> <strong>Note:</strong> COPCItemShelf is the friend class of COPCItemRoot
+</div>
+
+Methods of COPCItemRoot are shown in the following class diagrams:
+
+![Class Diagram for COPCItemRoot](/assets/images/freelance_opc_da_server/class_diaram_copcitemroot.png "Class Diagram for COPCItemRoot")
+
+##### Class Diagram for CConfiguration and Protocol classes
+
+![Class Diagram for CConfiguration and Protocol classes](/assets/images/freelance_opc_da_server/class_diaram_cconfiguration_and_protocal_class-01.png "Class Diagram for CConfiguration and Protocol classes")
+
+![Class Diagram for CConfiguration and Protocol classes](/assets/images/freelance_opc_da_server/class_diaram_cconfiguration_and_protocal_class-02.png "Class Diagram for CConfiguration and Protocol classes")
+
+![Class Diagram for CConfiguration and Protocol classes](/assets/images/freelance_opc_da_server/class_diaram_cconfiguration_and_protocal_class-03.png "Class Diagram for CConfiguration and Protocol classes")
+
+<div class="alert alert-info">
+  <i class="fas fa-info-circle"></i> <strong>Note:</strong> Relation and working of the above classes are described in OPC Configuration Section
+</div>
+
+##### Class diagrams for Read/Write Operations
+
+
+...................
+
+
+#### Interface /Local Functions
+
+#### Deployment View
