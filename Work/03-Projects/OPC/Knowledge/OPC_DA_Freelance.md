@@ -36,7 +36,7 @@ control device flexibly and efficiently.
 
 Although OPC is primarily designed for accessing data from a networked server, OPC interfaces can be used in many places within an application. At the lowest level they can get raw data from the physical devices into a SCADA or DCS or from the SCADA or DCS system into the application. The architecture and design makes it possible to construct an OPC Server which allows a client application to access data from many OPC Servers provided by many different OPC vendors running on different nodes via __a single object__(_what does objects here means?_).
 
-![The architecture and design of OPC Service.](/assets/images/freelance_opc_da_server/architecture_and_design-01.png "The architecture and design of OPC Service")
+![The architecture and design of OPC Service.](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/architecture_and_design-01.png "The architecture and design of OPC Service")
 
 
 ### Overview
@@ -51,7 +51,7 @@ The OPC Data access Specification specifies COM interfaces (what the interfaces 
 
 At a high level, an OPC Data Access Server is comprised of several objects:
 
-![High level objects.](/assets/images/freelance_opc_da_server/high_level_objects.png "High level objects")
+![High level objects.](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/high_level_objects.png "High level objects")
 
 __OPC Server Object:__
 
@@ -63,13 +63,13 @@ __OPC Group:__
 
 The OPC Groups provide a way for clients to __organize data__. For example, the group might represent items in a particular operator display or report. Data can be read and written. __Exception__ based connections can also be created between the client and the items in the group and can be enabled and disabled as needed. An OPC client can configure the __rate__ that an OPC server should provide the data changes to the OPC client.
 
-![Relation between Server and Groups](/assets/images/freelance_opc_da_server/relation_server_group.png "relation between Server and Groups")
+![Relation between Server and Groups](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/relation_server_group.png "relation between Server and Groups")
 
 __OPC Item:__
 
 Within each Group the client can define one or more OPC Items. The OPC Items represent __connections to data sources__ within the server. An OPC Item, from the custom interface perspective, is __not accessible__ as an object by an OPC Client. Therefore, there is __no external interface defined for an OPC Item__. All access to OPC Items is __via an OPC Group object__ that "contains" the OPC item, or simply where the OPC Item is defined.
 
-![Relation between Group and Items](/assets/images/freelance_opc_da_server/relation_group_item.png "relation between group and items")
+![Relation between Group and Items](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/relation_group_item.png "relation between group and items")
 
 __Associated with__ each item is a __Value, Quality__ and __Time Stamp__. The value is in the form of a VARIANT, and the Quality is similar to that specified by __FieldBus__. __The items are not the data sources - they are just connections to them__. For example, the tags in a controller exist regardless of whether an OPC client is currently accessing them. 
 
@@ -84,7 +84,7 @@ There are several unique considerations in implementing an OPC Server. The main 
 
 An OPC client application communicates to an OPC server through the specified custom and automation interfaces. OPC servers __must implement__ the custom interface, and __optionally may implement__ the automation interface. Automation interfaces are required to be implemented if the OPC Server intends to support clients written in Visual Basic or Delphi languages.
 
-![Custom and Automation Interfaces](/assets/images/freelance_opc_da_server/custom_automation_interface.png "Custom and Automation Interfaces")
+![Custom and Automation Interfaces](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/custom_automation_interface.png "Custom and Automation Interfaces")
 
 It is also expected that the server will consolidate and optimize data accesses requested by the various clients to promote efficient communications with the physical device.  For inputs (Reads), data returned by the device is buffered for asynchronous distribution or synchronous collection by various OPC clients.  For outputs (writes), the OPC Server updates the physical device data on behalf of OPC Clients.
 
@@ -123,7 +123,7 @@ __Automation Interfaces:__
 
 Tree View of the OPC Interfaces is shown in the next page:
 
-![Tree View of the OPC Interfaces](/assets/images/freelance_opc_da_server/tree_view_of_the_opc_interfaces.png "Tree View of the OPC Interfaces")
+![Tree View of the OPC Interfaces](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/tree_view_of_the_opc_interfaces.png "Tree View of the OPC Interfaces")
 
 | __Data Access Server Required Interfaces__| 1.0	        | 2.0	        | 3.0	        | __Freelance OPC Server__  |
 | :-------------------------------------    | :----         | :----         | :----         | :-------------------      |
@@ -320,7 +320,7 @@ __In general the three methods operate independently without 'side effects' on e
 
 ### Block diagram
 
-![Block diagram](/assets/images/freelance_opc_da_server/block_diagram.png "Block diagram")
+![Block diagram](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/block_diagram.png "Block diagram")
 
 __Description:__
 The block diagram consists of the following major components:
@@ -389,7 +389,7 @@ __Sub System Architecture:__
 </div>
 
 
-![Sub System Architecture](/assets/images/freelance_opc_da_server/sub_system_architectur.png "Sub System Architecture")
+![Sub System Architecture](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/sub_system_architectur.png "Sub System Architecture")
 
 ##### OPC Configuration
 
@@ -432,14 +432,14 @@ The reading of configuration starts with _CConfiguration_ which in turn calls _C
 
 The OPC DA Sub-System has 3 major modules and is shown in the following diagram:
 
-![high level objects](/assets/images/freelance_opc_da_server/high_level_objects-02.png "high level objects")
+![high level objects](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/high_level_objects-02.png "high level objects")
 
 
 __OPCServer Object:__
 
 The OPCServer object is the primary object that an OPC server exposes. The interfaces that this object provides are shown in the following interface diagram:
 
-![OPCServer object's interface diagram](/assets/images/freelance_opc_da_server/opcserver_object_interface_diagram.png "OPCServer object's interface diagram")
+![OPCServer object's interface diagram](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/opcserver_object_interface_diagram.png "OPCServer object's interface diagram")
 
 The functionality provided by each of the above interfaces is defined in the section __Custom and Automation Interfaces__
 
@@ -465,7 +465,7 @@ __OPC Group Object:__
 
 The OPCGroup object is the primary object that an OPC server exposes. The interfaces that this object provides are shown in the following interface diagram:
 
-![OPCGroup object's interface diagram](/assets/images/freelance_opc_da_server/opcgroup_object_interface_diagram.png "OPCGroup object's interface diagram")
+![OPCGroup object's interface diagram](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/opcgroup_object_interface_diagram.png "OPCGroup object's interface diagram")
 
 __OPC Item Object:__
 
@@ -666,19 +666,19 @@ Classes mentioned above are only for acyclic read and write operations. Cyclic R
 
 ##### Class Diagram for OPC Server Object
 
-![Class Diagram for OPC Server Object](/assets/images/freelance_opc_da_server/class_diaram_opc_server_object.png "Class Diagram for OPC Server Object")
+![Class Diagram for OPC Server Object](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/class_diaram_opc_server_object.png "Class Diagram for OPC Server Object")
 
 ##### Class Diagram for OPC Group Object
 
-![Class Diagram for OPC Group Object](/assets/images/freelance_opc_da_server/class_diaram_opc_group_object.png "Class Diagram for OPC Group Object")
+![Class Diagram for OPC Group Object](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/class_diaram_opc_group_object.png "Class Diagram for OPC Group Object")
 
 ##### Class Diagram for Item Object
 
-![Class Diagram for OPC Item Object](/assets/images/freelance_opc_da_server/class_diaram_opc_item_object-01.png "Class Diagram for OPC Item Object")
+![Class Diagram for OPC Item Object](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/class_diaram_opc_item_object-01.png "Class Diagram for OPC Item Object")
 
-![Class Diagram for OPC Item Object](/assets/images/freelance_opc_da_server/class_diaram_opc_item_object-02.png "Class Diagram for OPC Item Object")
+![Class Diagram for OPC Item Object](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/class_diaram_opc_item_object-02.png "Class Diagram for OPC Item Object")
 
-![Class Diagram for OPC Item Object](/assets/images/freelance_opc_da_server/class_diaram_opc_item_object-03.png "Class Diagram for OPC Item Object")
+![Class Diagram for OPC Item Object](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/class_diaram_opc_item_object-03.png "Class Diagram for OPC Item Object")
 
 <div class="alert alert-info">
   <i class="fas fa-info-circle"></i> <strong>Note:</strong> COPCItemShelf is the friend class of COPCItemRoot
@@ -686,15 +686,15 @@ Classes mentioned above are only for acyclic read and write operations. Cyclic R
 
 Methods of COPCItemRoot are shown in the following class diagrams:
 
-![Class Diagram for COPCItemRoot](/assets/images/freelance_opc_da_server/class_diaram_copcitemroot.png "Class Diagram for COPCItemRoot")
+![Class Diagram for COPCItemRoot](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/class_diaram_copcitemroot.png "Class Diagram for COPCItemRoot")
 
 ##### Class Diagram for CConfiguration and Protocol classes
 
-![Class Diagram for CConfiguration and Protocol classes](/assets/images/freelance_opc_da_server/class_diaram_cconfiguration_and_protocal_class-01.png "Class Diagram for CConfiguration and Protocol classes")
+![Class Diagram for CConfiguration and Protocol classes](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/class_diaram_cconfiguration_and_protocal_class-01.png "Class Diagram for CConfiguration and Protocol classes")
 
-![Class Diagram for CConfiguration and Protocol classes](/assets/images/freelance_opc_da_server/class_diaram_cconfiguration_and_protocal_class-02.png "Class Diagram for CConfiguration and Protocol classes")
+![Class Diagram for CConfiguration and Protocol classes](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/class_diaram_cconfiguration_and_protocal_class-02.png "Class Diagram for CConfiguration and Protocol classes")
 
-![Class Diagram for CConfiguration and Protocol classes](/assets/images/freelance_opc_da_server/class_diaram_cconfiguration_and_protocal_class-03.png "Class Diagram for CConfiguration and Protocol classes")
+![Class Diagram for CConfiguration and Protocol classes](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_da_server/class_diaram_cconfiguration_and_protocal_class-03.png "Class Diagram for CConfiguration and Protocol classes")
 
 <div class="alert alert-info">
   <i class="fas fa-info-circle"></i> <strong>Note:</strong> Relation and working of the above classes are described in OPC Configuration Section
