@@ -136,86 +136,83 @@ __KeyWord Options for Text file Tracing__
 Following keywords are available for the Keyword tracing. They are organized into groups as give below:
 
 - __Alarms & Events__ – Information about Alarm creation and updating. Keywords under this group is:
-
- - OPC_AE – To trace all Alarm related information and events.
- - OPC_DMSEvent – To trace DMS related information and events.
- - OPC_TKEvent – To trace all Softing Toolkit Events
- - OPC_TKInternal – To trace all Softing Toolkit internal information.
+    - OPC_AE – To trace all Alarm related information and events.
+    - OPC_DMSEvent – To trace DMS related information and events.
+    - OPC_TKEvent – To trace all Softing Toolkit Events
+    - OPC_TKInternal – To trace all Softing Toolkit internal information.
 
 - __Common Functionality__ – Information about OPC server configuration and OPC Server shelf. Keywords under this group are:
-
- - OPC_Common - To trace common OPC Server information
- - OPC_Configuration – To trace OPC Configuration related information and events
- - OPC_Shelf – To trace OPC Shelf related information and events.
+    - OPC_Common - To trace common OPC Server information
+    - OPC_Configuration – To trace OPC Configuration related information and events
+    - OPC_Shelf – To trace OPC Shelf related information and events.
 
 - __DAL__ – Information about Reading/Writing Items
- - DAL Notification
-  - OPC_DALCyclicNotification – To trace DAL related Cyclic Callback notifications
-  - OPC_DALReadNotification – To trace DAL Read Callback notifications
-  - OPC_DALWriteNotification – To trace DAL Write Callback notifications.
- - OPC_DALCyclicRead – To trace DAL Cyclic Read related information and events
- - OPC_DALJob – To trace DAL Read/Write transactions.
+    - DAL Notification
+        - OPC_DALCyclicNotification – To trace DAL related Cyclic Callback notifications
+        - OPC_DALReadNotification – To trace DAL Read Callback notifications
+        - OPC_DALWriteNotification – To trace DAL Write Callback notifications.
+    - OPC_DALCyclicRead – To trace DAL Cyclic Read related information and events
+    - OPC_DALJob – To trace DAL Read/Write transactions.
 
 - __DMS__ – Information about Reading/Writing on controller Items.
- - OPC_DMSACyclic – To trace DMS Acyclic read/write related information and events
- - OPC_DMSCommon – To trace common DMS transactions
- - OPC_DMSCyclicRead – To trace DMS Cyclic read related information and events
+    - OPC_DMSACyclic – To trace DMS Acyclic read/write related information and events
+    - OPC_DMSCommon – To trace common DMS transactions
+    - OPC_DMSCyclicRead – To trace DMS Cyclic read related information and events
  
 - __Fieldbus__ – Information about Reading/Writing on Fieldbus Items
- - OPC_FBACyclic – To trace FieldBus Acyclic read/write related information and events
- - OPC_FBCommon – To trace common FieldBus transactions
- - OPC_FBCyclicRead – To trace FieldBus cyclic read related information and events
+    - OPC_FBACyclic – To trace FieldBus Acyclic read/write related information and events
+    - OPC_FBCommon – To trace common FieldBus transactions
+    - OPC_FBCyclicRead – To trace FieldBus cyclic read related information and events
 
 - __Group Functionality__ – Operations and notifications on groups
- - OPC_AsyncNotification – To trace Call back notifications for Async operation.
- - OPC_Group – To trace Group operations’ information and events.
+    - OPC_AsyncNotification – To trace Call back notifications for Async operation.
+    - OPC_Group – To trace Group operations’ information and events.
 
 - __Item Functionality__ – Configuration changes on items
- - OPC_Item – To trace OPC Item related information and events
+    - OPC_Item – To trace OPC Item related information and events
 
 - __Data Access Automation Interfaces V1.0__ – Information when client supports only V1.0 interfaces
- - Group Object (Automation 1.0)
-  - IOPCAsyncIODisp – To trace asynchronous OPC Read/Write operations using automation interface(IOPCAsyncIODisp)
-  - IOPCGroupStateMgtDisp – To trace transactions to manage group properties using automation interface  (IOPCGroupStateMgtDisp)
-  - IOPCItemMgtDisp – To trace transactions to manage item properties using automation interface( IOPCItemMgtDisp)
-  - IOPCSyncIODisp – To trace synchronous OPC Read/Write operations using automation interface(IOPCSyncIODisp)
+    - Group Object (Automation 1.0)
+        - IOPCAsyncIODisp – To trace asynchronous OPC Read/Write operations using automation interface(IOPCAsyncIODisp)
+        - IOPCGroupStateMgtDisp – To trace transactions to manage group properties using automation interface  (IOPCGroupStateMgtDisp)
+        - IOPCItemMgtDisp – To trace transactions to manage item properties using automation interface( IOPCItemMgtDisp)
+        - IOPCSyncIODisp – To trace synchronous OPC Read/Write operations using automation interface(IOPCSyncIODisp)
 
- - Item Object (Automation 1.0)
-  - IOPCItemDisp – To trace transactions to access item properties using automation interface(IOPCItemDisp)
+    - __Item Object (Automation 1.0)__
+        - IOPCItemDisp – To trace transactions to access item properties using automation interface(IOPCItemDisp)
 
- - ServerObject (Automation 1.0)
-  - IOPCBrowseServerAddressSpaceDisp – To trace transactions to access server address space data using automation interfaces (IOPCBrowseServerAddressSpaceDisp, IEnumString and IEnumVARIANT)
-  - IOPCServerDisp – To trace transactions to access server object’s properties using automation interface(IOPCServerDisp)
+    - __ServerObject (Automation 1.0)__
+        - IOPCBrowseServerAddressSpaceDisp – To trace transactions to access server address space data using automation interfaces (IOPCBrowseServerAddressSpaceDisp, IEnumString and IEnumVARIANT)
+        - IOPCServerDisp – To trace transactions to access server object’s properties using automation interface(IOPCServerDisp)
 
-- Data Access Custom Interfaces – Information on the Data Access specific interfaces
- - Client Interfaces
-  - IAdviseSink – To trace cyclic operations for advised items
-  - IOPCDataCallback – To trace callbacks to the client after finishing Read/Write jobs and when data changes for an adviced item.
-  - IOPCShutdown – Not implemented
+- __Data Access Custom Interfaces__ – Information on the Data Access specific interfaces
+    - Client Interfaces
+        - IAdviseSink – To trace cyclic operations for advised items
+        - IOPCDataCallback – To trace callbacks to the client after finishing Read/Write jobs and when data changes for an adviced item.
+        - IOPCShutdown – Not implemented
 
- - Group Object
-  - IDataObject – To trace transactions through IDataObject interface
-  - IEnumOPCItemAttributes – To trace accessing OPC Item attributes through interfaces IEnumOPCItemAttributes, IEnumString and IEnumVARIANT
-  - IOPCAsyncIO – To trace asynchronous access of OPC Data through IOPCAsyncIO interface
-  - IOPCAsyncIO2 – To trace asynchronous access of OPC Data through IOPCAsyncIO2 interface
-  - IOPCGroupStateMgt – To trace transactions through IOPCGroupStateMgt interface
-  - IOPCItemMgt – To trace transactions through IOPCItemMgt interface
-  - IOPCSyncIO – To trace synchronous access of OPC Data through IOPCSyncIO interface
+    - __Group Object__
+        - IDataObject – To trace transactions through IDataObject interface
+        - IEnumOPCItemAttributes – To trace accessing OPC Item attributes through interfaces IEnumOPCItemAttributes, IEnumString and IEnumVARIANT
+        - IOPCAsyncIO – To trace asynchronous access of OPC Data through IOPCAsyncIO interface
+        - IOPCAsyncIO2 – To trace asynchronous access of OPC Data through IOPCAsyncIO2 interface
+        - IOPCGroupStateMgt – To trace transactions through IOPCGroupStateMgt interface
+        - IOPCItemMgt – To trace transactions through IOPCItemMgt interface
+        - IOPCSyncIO – To trace synchronous access of OPC Data through IOPCSyncIO interface
 
- - IConnectionPointContainer – To trace Advise and Unadvise methods in COPCGroupCust class
+    - __IConnectionPointContainer__ – To trace Advise and Unadvise methods in COPCGroupCust class
 
- - ServerObject
+    - __ServerObject__
+        - IOPCBrowseServerAddressSpace – To trace transactions to access server address space data using IOPCBrowseServerAddressSpace interface
+        - IOPCCommon – To trace transactions using IOPCCommon interface
+        - IOPCItemProperties – To trace transactions using IOPCItemProperties interface
+        - IOPCServer – To trace transactions to access server object’s properties using IOPCServer interface
 
-  - IOPCBrowseServerAddressSpace – To trace transactions to access server address space data using IOPCBrowseServerAddressSpace interface
-  - IOPCCommon – To trace transactions using IOPCCommon interface
-  - IOPCItemProperties – To trace transactions using IOPCItemProperties interface
-  - IOPCServer – To trace transactions to access server object’s properties using IOPCServer interface
-
-- Server Functionality – Information about Browsing, Item properties and the server state
- - OPC_Browsing – To trace browsing of OPC Items
- - OPC_CheckServer – Not Implemented
- - OPC_ItemProperties – To trace accessing OPC Item properties
- - OPC_Server – To trace OPC Server functionality
+- __Server Functionality__ – Information about Browsing, Item properties and the server state
+    - OPC_Browsing – To trace browsing of OPC Items
+    - OPC_CheckServer – Not Implemented
+    - OPC_ItemProperties – To trace accessing OPC Item properties
+    - OPC_Server – To trace OPC Server functionality
 
 The user interface to enable/disable the Keywords for the Trace is shown below:
 
