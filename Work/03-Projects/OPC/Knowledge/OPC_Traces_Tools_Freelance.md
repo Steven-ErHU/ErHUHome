@@ -220,6 +220,199 @@ The user interface to enable/disable the Keywords for the Trace is shown below:
 
 ##### Terminal Trace Options
 
+Tracing is also possible via a terminal. The ports for tracing are defined in the OPC Server directory of the Freelance OPC Server.
+
+To find out which application used the port, use: _telnet localhost 866x_  
+On command line, type:
+
+    > telnet localhost 6660 for menu  
+    > telnet localhost 7660 for OPC Server trace
+
+To unlock the menu, use the password: _1106_  
+Enable the telnet trace by using the _OPCSRVD_ menu 0.  
+The Trace level must be set here: Debug=1, Information=2, Message = 3, Warning = 4, Error = 5, No Trace = 6
+
+OPC Server keywords could be enabled via the menu.
+
+The Terminal trace could be started using _OPCSRVD.dll_. The WinMain function of the OPC Server registers the following callback functions with the _OPCSRVD.dll_. By calling these functions Terminal tracing can be activated.
+
+- RegisterConfDump(Dump_Configuration);
+- RegisterSrvDump(Dump_Servers);
+- RegisterGrpDump(Dump_Groups);
+- RegisterItemDump(Dump_Items);
+- RegisterActiveItemDump(Dump_ActiveItems);
+- RegisterSetTraceLevel(SetTraceLevel);
+- RegisterEnableFile(EnableFile);
+- RegisterEnableDebugOutput(EnableDebugOutput);
+- RegisterEnableTelnet(EnableTelnet);
+
+If the flag _TraceTelnetActive_ is true the KeyTrace function will send the trace to the Terminal using *CGL_Duprintf* function.
+
+__Trace Level:__
+
+Any of the following Trace Level can be set for the Tracing:
+
+- No Trace : No trace will be recorded in trace
+- Error : All error traces will be recorded
+- Warning : All warnings traces and keywords for which switch is on (*SW_EIN*)for errors will be recorded (No message, Information and debug traces will be recorded )
+- Message : Keywords for which switch is on(*SW_EIN*) for Errors ,Warnings and Messages will be recorded (No Information and debug traces will be recorded)
+- Information : Keywords for which switch is on(*SW_EIN*) for Errors ,Warnings, Messages and Information will be recorded(No debug traces will be recorded)
+- Debug : All traces will be recorded if the keyword switch (*SW_EIN*) is on.
+
+There are three macro functions used for tracing:
+
+- _KEY_TRACE_ : This function will call _KeyTrace_ function according to above trace level set
+- _DUMP_TRACE_ : This function will call _KeyTrace_ if level is set other than No Trace. This trace will recorded as Debug trace. This function will be used at the time of dumping connections, configuration, groups, items and active items.
+- *FORCE_TRACE*: This function will call *KeyTrace* if level is set other than No Trace. This trace will
+recorded as Information trace.
+- *TRACE_ALWAYS* : This function will call *KeyTrace* regardless of level and trace will be recoded as actual
+level sent with caller.
+
+
+### DCOM Settings
+__Note__: This configuration is obsolete in the newer versions where the OPC Server Tunnel is available.
+
+- For the user account that runs the OPC Server you must configure for the launch and access permissions allow access.
+- If the remote PC is assigned to a different domain or a different workgroup, then Everyone should be entered under User with allow access. This should avoid problems with user authentification.
+- The DCOM settings must be done for both OPC Servers , Data access and Alarms & Events. Both have and entry in the DCOM Configuration.
+
+### OPC Server Tunnel
+- The OPC Server Tunnel is used to __avoid DCOM problems__ with different users and workgroups when the OPC Server is running on a remote machine.
+- The OPC Server Tunnel uses a __TCP/IP connection__ for connecting to the OPC Server. This avoids user authentication problems.
+
+More detailed information about OPC Server Tunnel is available in *OPCTunnel_TechnDescr_en.pdf* in the following Proman path:
+*\Freelance 800F\Documents\Technical Bulletins\Technical Descriptions\OPCTunnel_TechnDescr_en.pdf*
+
+### Registry Settings
+
+#### Registering the OPC Server with Resource ID
+
+The Registration of the OPC Server with __resource ID__ is needed to make the __OPC Server__ available for the __OPC clients__. We can do this with two ways as explained below.
+
+- __Using Command Prompt__  
+    - For registering Freelance OPC server manually use a command prompt in Freelance install directory and type: *opcsrv.exe /&#60;ResID&#62; /regserver*
+    - To unregister Freelance OPC Server type: *opcsrv.exe /&#60;ResID&#62; /unregserver*
+
+- __Using Configure Window__  
+    - In this method we can do the same with configure window by selecting Freelance OPC-Server Options tab.
+    - Here we can Register and Unregister with Add and Remove buttons respectively.
+
+    ![Configure Tool.](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_trace_tool/configure_tool-01.png "Configure Tool")
+
+    - During registering for both OPC Servers Data Access and Alarms & Events __AppId__ and __ClassID__ of the server is added.
+    - The ClassID is depending on the OPC Servers resource ID.  
+      For Data Access it is {F822DE8F-207C-11D1-BAD4-006097385xxx}.  
+      The xxx indicates the Resource Id of the OPC Server.
+
+    - The AppID is __Freelance2000OPCServer__ for Data Access and __Freelance2000OPCAEServer__ for Alarms&Events
+
+#### Registry settings for the OPC Server
+- Registry keys for the OPC Server could be found in:  
+HKEY_LOCAL_MACHINE\Software\Hartmann & Braun\Freelance\OPCServer
+    
+All information about OPC server configuration could be found here. Especially switches and keys for tracing and debugging the OPC Server. The other significant OPC Server data available here are given below
+
+- MaxVarlist: Maximum Number of Variable List for Controller Connection
+- OptimisticDataTypeConversion: Switches on OPC Compliance Mode for Data Type Conversion
+- PPAConnectivity: Switching on this will set the OPC Server state to “Communication Failure” if the OPC Server is not able to connect to the controller
+- RedToggleQualityGood : Used for Redundancy toggle. If set the timeout time could be set with RedToggleTimeOut
+- RedToggleTimeOut : Number of cycles to wait before a redundancy toggle is performed.
+- TaskBarEntry : A Taskbar entry is created for the OPC Server
+- TraceTelnetActive: Activates Tracing for OPC Server
+- UpdateCycleTime : Minimum Cycle Time for updating OPC Server items
+- __AeDumpConfigurationTrace : not used__
+- __AeObjectTrace : not used__
+- ConfigureRemoteOPC : OPC Server is running on a remote machine
+- ConfigureRemoteTrd : Trend Server is running on a remote machine
+- DomainPath : Freelance OPC Server install directory.
+
+### Performance Monitoring
+
+The Performance Monitoring for the OPC Server counters with PerfMon is implemented in the class _CPerformanceData_. This class has one thread function _PerformanceThread_ which is responsible to collecting the performance data every 1000ms.The _WinMain_ method of the OPC Server starts this thread at the beginning of application by calling _Start_ method of _CPerformanceData_ class. This thread stops when _Winmain_ calls _Stop_ method at end.
+
+The _Winmain_ function registers the function _GetPerformanceData_, of _CPerformanceData_ class,
+with __DGMOPCS__ module with the following call.
+
+- DGM_OpcInitEx(PerformanceData.GetPerformanceData);
+
+The __PerfMon__ tool will call this callback function to get the performance data. The Class _CPerformanceData_ contains one member of the structure _OPC_PERFCOUNTER_ which contains the OPC Server counters. The description for _OPC_PERFCOUNTER_ is provided below.
+
+<details>
+<summary>Struct SchluesselWort in cgen.h</summary>
+<pre><code>
+
+```CPP
+typedef struct
+{
+    unsigned long ItemNo; /* Configured items: Number of configured items */
+    unsigned long EventNo;/* Configured events: Number of configured event points */
+    unsigned long ConnNo;/* Client connections: Number of OPC Data Access client connections */
+    unsigned long GroupNo; /* Groups: Number of OPC Groups */
+    unsigned long ActiveItemNo; /* Active items: Number of active OPC items */
+    unsigned long AddFailBandwidth; /* AddItem failures (Bandwidth) */
+    unsigned long AddFailInteract; /* AddItem failures (Interaction) */
+    unsigned long AddFailConfi; /* AddItem failures (configuration) */
+    unsigned long PendingJobs; /* Pending acyclic jobs */
+    unsigned long AcyclicReadErrors; /* Acyclic read errors */
+    unsigned long AcyclicWriteErrors; /* Acyclic write errors */
+    double ChangesPerSecond; /* Changed cyclic items/second */
+    double AcyclicReadsPerSecond;/* Acyclic reads/second */
+    double WritesPerSecond; /* Writes/second */
+    unsigned short StationNo[SUPPORTED_STATIONS]; /* Station No. for Station n */
+    unsigned short StationBandwidth[SUPPORTED_STATIONS]; /* % cyclic bandwidth in use for station n */
+} OPC_PERFCOUNTER;
+```
+</code></pre>
+</details>
+
+
+### Trend Server
+
+__Freelance 2000 Trend Server is created by renaming the OPC Server executable to trnsrv.exe__. During registration the OPC Server specific Component Categories will be removed from the registry (OPC Data Access Servers Version 1.0 and 2.0). These changes for the trend server are done in _winMain_ function in _OPCsrv.cpp_. This makes it possible to run the OPC Server, but no 3rd party client is able to browse it. The trend server is configured in __Control Builder F__ as __separate gateway__. To use the trend server add a __trend display__ in DigiVis and add variables that should be read via the trend server. Use the option variable acquisition and add the OPC Name of the variables and we can adjust the sample time if needed. __We need to download all changes to the DigiVis station and to the trend server.__
+
+### AE Map
+
+The AE map is a mapping component for the alarms and events between the Freelance OPC Server and the Tag importer of Process Portal B. All conditions and sub conditions of a Freelance OPC Server could be found here. A mapping for Priority and severity is done here. The information is updated during the code generation of the OPC Server in Control Builder F. 
+
+
+## System Architecture
+
+### Block diagram
+
+![Block diagram.](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_trace_tool/block_diagram-01.png "Block diagram")
+
+### Classes/Structures
+
+#### Class Diagram for OPC Trace Tool
+
+TODO
+
+### Process View
+
+__Text File Traces__: The series of actions while using Key Word Traces are captures in the sequence diagram given below:
+
+![Process View.](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_trace_tool/sequence_diagram_text_file.png "Process View")
+
+__Terminal Traces__: The series of actions while using Tel Net Traces are captures in the sequence diagram given below:
+
+![Process View.](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_trace_tool/sequence_diagram_terminal.png "Process View")
+
+__Performance Monitoring__: The series of actions while monitoring performance of OPC counters using PerfMon tool of Windows are captures in the sequence diagram given below:
+
+![Process View.](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_trace_tool/sequence_diagram_perf_mon.png "Process View")
+
+
+
+#### Deployment view
+
+![Deployment View.](/Work/03-Projects/OPC/Knowledge/assets/images/freelance_opc_trace_tool/deployment_view.png "Deployment View")
+
+
+
+
+
+
+
 
 
 
