@@ -26,7 +26,7 @@ In this first class, we will do a quick overview of how to build an application 
 	
 - Visual Basic is **event-driven**, meaning code remains idle(空闲的) until called upon to respond to some event (button pressing, menu selection, ...).  Visual Basic is governed by an event processor.  Nothing happens until an event is detected.  Once an event is detected, the code corresponding to that event (event procedure) is executed.  Program control is then returned to the event processor.
 
-![event-driven](/Work/04-Knowledge/06-VB/LearnVB6/assets/vb_event_driven.png "event-driven")
+![event-driven](/Work/04-Knowledge/06-VB/LearnVB6/assets/vb_event_driven.PNG "event-driven")
 
 All Windows applications are event-driven.  For example, nothing happens in Word until you click on a button, select a menu option, or type some text.  Each of these actions is an event. 
 
@@ -63,7 +63,7 @@ __Some Features of Visual Basic__:
 ### Structure of a Visual Basic Application
 
 Project (.VBP, .MAK)
-![Structure of a Visual Basic Application](/Work/04-Knowledge/06-VB/LearnVB6/assets/Structure_of_a_Visual_Basic_Application.png "Structure of a Visual Basic Application")
+![Structure of a Visual Basic Application](/Work/04-Knowledge/06-VB/LearnVB6/assets/Structure_of_a_Visual_Basic_Application.PNG "Structure of a Visual Basic Application")
 
 #### Application (Project) is made up of:
 
@@ -96,7 +96,7 @@ Project (.VBP, .MAK)
 
 - Visual Basic will start and this dialog box appears:
 
-![Starting Visual Basic](/Work/04-Knowledge/06-VB/LearnVB6/assets/vb_new_project.png "Starting Visual Basic")
+![Starting Visual Basic](/Work/04-Knowledge/06-VB/LearnVB6/assets/vb_new_project.PNG "Starting Visual Basic")
 
 For now, just click Open – we are starting a new project.  Later, once you have saved some projects, they can be opened using the Existing and Recent tabs.  The Visual Basic development environment will start.
 
@@ -115,27 +115,27 @@ We focus here on the design mode.
 
     - The __Main Window__ consists of the title bar, menu bar, and toolbar.  The title bar indicates the project name, the current Visual Basic operating mode, and the current form.  The menu bar has drop-down menus from which you control the operation of the Visual Basic environment.  The toolbar has buttons that provide shortcuts to some of the menu options.  The main window also shows the location of the current form relative to the upper left corner of the screen (measured in twips) and the width and length of the current form.  Of particular interest is the Help menu item.  The Visual Basic on-line help system is invaluable as you build applications.  Become accustomed with its use.  Usually just pressing &#60F1&#62 can get you the help you need.
 
-    ![design mode interface](/Work/04-Knowledge/06-VB/LearnVB6/assets/vb_tool_interface.png "design mode interface")
+    ![design mode interface](/Work/04-Knowledge/06-VB/LearnVB6/assets/vb_tool_interface.PNG "design mode interface")
 
     - The __Form Window__ is central to developing Visual Basic applications.  It is where you draw your application.
     
-    ![Form Window](/Work/04-Knowledge/06-VB/LearnVB6/assets/vb_form1.png "Form Window")
+    ![Form Window](/Work/04-Knowledge/06-VB/LearnVB6/assets/vb_form1.PNG "Form Window")
 
     - The __Toolbox__ is the selection menu for controls used in your application.  Help with any control is available by clicking the control and pressing &#60F1&#62.
 
-    ![ToolBox](/Work/04-Knowledge/06-VB/LearnVB6/assets/vb_tool_bar.png "ToolBox")
+    ![ToolBox](/Work/04-Knowledge/06-VB/LearnVB6/assets/vb_tool_bar.PNG "ToolBox")
 
     - The __Properties Window__ is used to establish initial property values for objects (controls).  The drop-down box at the top of the window lists all objects in the current form.  Two views are available:  Alphabetic and Categorized.  Under this box are the available properties for the currently selected object.  Help with any property can be obtained by highlighting the property of interest and pressing &#60F1&#62. 
 
-    ![Property Form](/Work/04-Knowledge/06-VB/LearnVB6/assets/property_form.png "Property Form")
+    ![Property Form](/Work/04-Knowledge/06-VB/LearnVB6/assets/property_form.PNG "Property Form")
 
     - The Form __Layout Window__ shows where (upon program execution) your form will be displayed relative to your monitor’s screen:
 
-    ![Layout Window](/Work/04-Knowledge/06-VB/LearnVB6/assets/layout_window.png "Layout Window")
+    ![Layout Window](/Work/04-Knowledge/06-VB/LearnVB6/assets/layout_window.PNG "Layout Window")
 
     - The __Project Window__ displays a list of all forms and modules making up your application.  You can also obtain a view of the Form or Code windows (window containing the actual Basic coding) from the Project window.
 
-    ![Project Window](/Work/04-Knowledge/06-VB/LearnVB6/assets/project_window.png "Project Window")
+    ![Project Window](/Work/04-Knowledge/06-VB/LearnVB6/assets/project_window.PNG "Project Window")
 
 - As mentioned, the user interface is 'drawn' in the form window.  There are two ways to place controls on a form:
     1. Double-click the tool in the toolbox and it is created with a default size on the form.  You can then move it or resize it.
@@ -145,7 +145,7 @@ We focus here on the design mode.
 
 - To resize a control, click the object so that it is select and sizing handles appear.  Use these handles to resize the object.
 
-![Move and Resize Control](/Work/04-Knowledge/06-VB/LearnVB6/assets/control_move_resize.png "Move and Resize Control")
+![Move and Resize Control](/Work/04-Knowledge/06-VB/LearnVB6/assets/control_move_resize.PNG "Move and Resize Control")
 
 
 
